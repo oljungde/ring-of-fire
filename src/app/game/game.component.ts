@@ -54,8 +54,7 @@ export class GameComponent implements OnInit {
       this.playeramountService.triggerPlayerSubject(this.game.players.length);
       this.gameendsService.triggerGameEndSubject(this.game.gameOver);
       this.gameendsService.triggerCurrentPlayersSubject(this.game.players);
-    });
-    });    
+    });   
   }
 
   
