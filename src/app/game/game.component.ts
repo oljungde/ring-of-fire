@@ -55,6 +55,8 @@ export class GameComponent implements OnInit {
       this.gameendsService.triggerGameEndSubject(this.game.gameOver);
       this.gameendsService.triggerCurrentPlayersSubject(this.game.players);
     });
+    console.log('Hallo Welt');
+    
   }
 
   
