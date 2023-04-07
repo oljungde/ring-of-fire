@@ -1,5 +1,5 @@
 .player {
-    width: 350px;
+    width: 270px;
     background-color: gray;
     display: flex;
     align-items: center;
@@ -9,6 +9,7 @@
     border-top-left-radius: 66px;
     color: white;
     font-size: 24px;
+    z-index: 1;
 
     img {
         height: 50px;

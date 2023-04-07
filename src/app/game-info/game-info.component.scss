@@ -1,0 +1,7 @@
+mat-card {
+    @media (max-width: 768px) {
+        min-height: 120px;
+        justify-content: center;
+        border-radius: 0;
+    }
+}

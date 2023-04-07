@@ -15,12 +15,22 @@
         width: 160px;
         height: 240px;
         position: absolute;
+
+        @media (max-width: 768px) {
+            width: 100px;
+            height: 150px;
+        }
     }
 }
 
 .pick-card {
     transform: scale(1.1) translateY(-290px) translateX(-100px) rotate(18deg);
     animation: pick-card-animation 1.25s ease-in-out;
+
+    @media (max-width: 768px) {
+        transform: scale(1) translateY(0px) translateX(125px) rotate(0deg);
+        animation: pick-card-animation-mobile 1.25s ease-in-out;
+    }
 }
 
 @keyframes pick-card-animation {
@@ -41,9 +51,31 @@
     }
 }
 
+@keyframes pick-card-animation-mobile {
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.5);
+    }
+
+    60% {
+        transform: scale(1.5);
+    }
+
+    100% {
+        transform: scale(1) translateY(0px) translateX(125px) rotate(0deg);
+    }
+}
+
 .played-card {
     left: 25px;
     transform: scale(1.1) translateY(-290px) translateX(-100px) rotate(18deg);
+
+    @media (max-width: 768px) {
+        transform: scale(1) translateY(0px) translateX(125px) rotate(0deg);
+    }
 }
 
 .player-position {
@@ -63,4 +95,10 @@
     bottom: 64px;
     left: 64px;
     color: white;
+
+    @media (max-width: 768px) {
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
 }
