@@ -8,6 +8,4 @@ import { Component, Input } from '@angular/core';
 export class PlayerComponent {
   @Input() name: string;
   @Input() playerActive: boolean = false;  
-  
-  // displayName: string = name.substring(0, 3);
 }
