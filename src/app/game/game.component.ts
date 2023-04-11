@@ -54,9 +54,9 @@ export class GameComponent implements OnInit {
       this.game.currentCard = game.currentCard;
       this.game.gameOver = game.gameOver;
       this.playeramountService.triggerPlayerSubject(this.game.players.length);
-      this.playeramountService.triggerImagesSubject(this.game.playerImages);
       this.gameendsService.triggerGameEndSubject(this.game.gameOver);
       this.gameendsService.triggerCurrentPlayersSubject(this.game.players);
+      this.gameendsService.triggerCurrentPlayerImagesSubject(this.game.playerImages);
     });   
   }
 

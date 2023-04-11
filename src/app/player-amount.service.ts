@@ -6,7 +6,6 @@ import { Subject } from 'rxjs';
 })
 export class PlayerAmountService {
   amountPlayer = new Subject<number>();
-  imagesPlayer = new Subject<Array<string>>();
 
   constructor() { }
 
@@ -15,11 +14,5 @@ export class PlayerAmountService {
 
   triggerPlayerSubject(numberPlayers: number) {
     this.amountPlayer.next(numberPlayers);
-  }
-
-  triggerImagesSubject(imagesPlayer: Array<string>) {
-    this.imagesPlayer.next(imagesPlayer);
-    console.log('Images from player amount service: ', imagesPlayer);
-    
   }
 }

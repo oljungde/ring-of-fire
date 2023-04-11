@@ -46,16 +46,16 @@ export class GameInfoComponent implements OnInit, OnChanges {
     this.playeramountService.amountPlayer.subscribe((numberPlayers) => {
       this.amountPlayer = numberPlayers;
     });
-    this.playeramountService.imagesPlayer.subscribe((imagesPlayer) => {
-      this.currentPlayerImages = imagesPlayer;
-      console.log('images from game-info', this.currentPlayerImages);
-      
-    });
     this.gameendsService.gameEnd.subscribe((gameEnds: boolean) => {
       this.isGameOver = gameEnds;
     });
     this.gameendsService.currentPlayers.subscribe((players: Array<string>) => {
       this.currentPlayers = players;
+    });
+    this.gameendsService.currentPlayerImages.subscribe((playerImages) => {
+      this.currentPlayerImages = playerImages;
+      console.log('images from game-info', this.currentPlayerImages);
+      
     });
   }
 
