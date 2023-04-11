@@ -12,7 +12,7 @@
 
     <mat-card-content *ngIf="this.isGameOver">{{ 'This game is over! This round is over. Do you want to start a new game? Click on "Restart".' }}</mat-card-content>
 
-    <mat-card-actions *ngIf="this.isGameOver">
-        <button (click)="restartGame(this.currentPlayers)" mat-button>Restart</button>
+    <mat-card-actions *ngIf="this.isGameOver" align="end">
+        <button (click)="restartGame(this.currentPlayers)" mat-raised-button color="primary">Restart</button>
     </mat-card-actions>
 </mat-card>

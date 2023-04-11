@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PlayerAmountService } from '../player-amount.service';
 import { GameEndsService } from '../game-ends.service';
+import { EditPlayerComponent } from '../edit-player/edit-player.component';
 
 
 
@@ -45,6 +46,7 @@ export class GameComponent implements OnInit {
     let game$ = docData(docRef);
     game$.subscribe((game: any) => {
       this.game.players = game.players;
+      this.game.playerImages = game.playerImages;
       this.game.currentPlayer = game.currentPlayer;
       this.game.playedCards = game.playedCards;
       this.game.stack = game.stack;
@@ -52,6 +54,7 @@ export class GameComponent implements OnInit {
       this.game.currentCard = game.currentCard;
       this.game.gameOver = game.gameOver;
       this.playeramountService.triggerPlayerSubject(this.game.players.length);
+      this.playeramountService.triggerImagesSubject(this.game.playerImages);
       this.gameendsService.triggerGameEndSubject(this.game.gameOver);
       this.gameendsService.triggerCurrentPlayersSubject(this.game.players);
     });   
@@ -85,7 +88,26 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe((name: string) => {
       if (name && name.length >= 3) {
         this.game.players.push(name);
+        this.game.playerImages.push('1.png');
         this.gameendsService.triggerCurrentPlayersSubject(this.game.players);
+        this.updateGame();
+      }
+    });
+  }
+
+
+  editPlayer(playerId: number) {
+    console.log('edit player' + playerId);
+    const dialogRef = this.dialog.open(EditPlayerComponent);
+    dialogRef.afterClosed().subscribe((change: string) => {
+      if (change) {
+        if (change == 'DELETE') {
+          this.game.players.splice(playerId, 1);
+          this.game.playerImages.splice(playerId, 1);
+        } else {
+          this.game.playerImages[playerId] = change;
+          console.log('Change recieved: ' + change);
+        }
         this.updateGame();
       }
     });

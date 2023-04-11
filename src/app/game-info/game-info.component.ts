@@ -33,6 +33,7 @@ export class GameInfoComponent implements OnInit, OnChanges {
   amountPlayer: number;
   isGameOver: boolean = false;
   currentPlayers: Array<string> = [];
+  currentPlayerImages: Array<string> = [];
   game: Game;
   firestore: Firestore = inject(Firestore);
   gamesCollection = collection(this.firestore, 'games');
@@ -45,13 +46,16 @@ export class GameInfoComponent implements OnInit, OnChanges {
     this.playeramountService.amountPlayer.subscribe((numberPlayers) => {
       this.amountPlayer = numberPlayers;
     });
+    this.playeramountService.imagesPlayer.subscribe((imagesPlayer) => {
+      this.currentPlayerImages = imagesPlayer;
+      console.log('images from game-info', this.currentPlayerImages);
+      
+    });
     this.gameendsService.gameEnd.subscribe((gameEnds: boolean) => {
       this.isGameOver = gameEnds;
-      console.log('Game ends game-info component: ', this.isGameOver);
     });
     this.gameendsService.currentPlayers.subscribe((players: Array<string>) => {
       this.currentPlayers = players;
-      console.log('Current players game-info component: ', this.currentPlayers);
     });
   }
 
@@ -71,6 +75,7 @@ export class GameInfoComponent implements OnInit, OnChanges {
   async restartGame(currentPlayers: Array<string>) {
     this.game = new Game();
     this.game.players = this.currentPlayers;
+    this.game.playerImages = this.currentPlayerImages;
     let gameInfo = await addDoc(this.gamesCollection, this.game.toJson()).then((docRef: DocumentReference) => {
       this.router.navigate(['/game', docRef.id]);
     });

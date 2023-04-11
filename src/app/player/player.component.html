@@ -1,7 +1,7 @@
 <div *ngIf="name.length <= 11" class="player" [class.player-active]="playerActive">
-    <img src="assets/img/profile/1.png" alt=""> {{ name }}
+    <img src="assets/img/profile/{{ playerImage }}" alt=""> {{ name }}
 </div>
 
 <div *ngIf="name.length > 11" class="player" [class.player-active]="playerActive">
-    <img src="assets/img/profile/1.png" alt=""> {{ name.substring(0, 8) + '...' }}
+    <img src="assets/img/profile/{{ playerImage }}" alt=""> {{ name.substring(0, 8) + '...' }}
 </div>
