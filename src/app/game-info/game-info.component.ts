@@ -53,22 +53,17 @@ export class GameInfoComponent implements OnInit, OnChanges {
       this.currentPlayers = players;
     });
     this.gameendsService.currentPlayerImages.subscribe((playerImages) => {
-      this.currentPlayerImages = playerImages;
-      console.log('images from game-info', this.currentPlayerImages);
-      
+      this.currentPlayerImages = playerImages;      
     });
   }
 
   
   ngOnChanges(): void {
     if (this.card) {
-      console.log(this.card);
       let cardNumber = +this.card.split('_')[1];
       this.title = this.cardAction[cardNumber - 1].title;
       this.description = this.cardAction[cardNumber - 1].description;
-    }
-    console.log('current player', this.currentPlayers);
-    
+    }    
   }
 
 

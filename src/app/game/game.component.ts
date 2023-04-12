@@ -3,7 +3,6 @@ import { Game } from 'src/models/game';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { Firestore, collection, doc, setDoc, getFirestore, docData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { PlayerAmountService } from '../player-amount.service';
 import { GameEndsService } from '../game-ends.service';
@@ -97,7 +96,6 @@ export class GameComponent implements OnInit {
 
 
   editPlayer(playerId: number) {
-    console.log('edit player' + playerId);
     const dialogRef = this.dialog.open(EditPlayerComponent);
     dialogRef.afterClosed().subscribe((change: string) => {
       if (change) {
@@ -106,7 +104,6 @@ export class GameComponent implements OnInit {
           this.game.playerImages.splice(playerId, 1);
         } else {
           this.game.playerImages[playerId] = change;
-          console.log('Change recieved: ' + change);
         }
         this.updateGame();
       }
