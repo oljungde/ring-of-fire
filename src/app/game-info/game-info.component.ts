@@ -83,11 +83,9 @@ export class GameInfoComponent implements OnInit, OnChanges {
     let newGame = new Game();
     newGame.players = this.currentPlayers;
     newGame.playerImages = this.currentPlayerImages;
-    console.log(newGame);
     const docRef = doc(this.db, "games", this.gameId);
     const gameData = newGame.toJson();
     setDoc(docRef, gameData).then(() => {
-      console.log("Document successfully written!", newGame);
     });
   }
 }

@@ -157,7 +157,7 @@ export class GameComponent implements OnInit {
     const docRef = doc(this.db, "games", this.gameId);
     const gameData = this.game.toJson();
     setDoc(docRef, gameData).then(() => {
-      console.log("Document successfully written!", this.game);
+      
     });
   }
 }
