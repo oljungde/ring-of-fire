@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { GameEndsService } from './game-ends.service';
 
 describe('GameEndsService', () => {

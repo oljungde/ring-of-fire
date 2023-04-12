@@ -19,6 +19,9 @@ export class StartScreenComponent {
   constructor(private router: Router) { }
 
 
+  /**
+   * create a new game and navigate to the game page
+   */
   newGame() {
     this.game = new Game();     
     let gameInfo = addDoc(this.gamesCollection, this.game.toJson()).then((docRef: DocumentReference) => {

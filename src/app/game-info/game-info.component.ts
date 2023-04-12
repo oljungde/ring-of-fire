@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { PlayerAmountService } from '../player-amount.service';
 import { GameEndsService } from '../game-ends.service';
 import { Game } from 'src/models/game';
-import { Firestore, DocumentReference, addDoc, collection } from '@angular/fire/firestore';
+import { Firestore, collection, getFirestore, doc, setDoc } from '@angular/fire/firestore';
 
 
 @Component({
@@ -34,15 +34,19 @@ export class GameInfoComponent implements OnInit, OnChanges {
   isGameOver: boolean = false;
   currentPlayers: Array<string> = [];
   currentPlayerImages: Array<string> = [];
-  game: Game;
   firestore: Firestore = inject(Firestore);
   gamesCollection = collection(this.firestore, 'games');
+  gameId: string = '';
+  db = getFirestore();
   
   
   constructor(private gameendsService: GameEndsService, private playeramountService: PlayerAmountService, private router: Router ) { }
 
   
-  ngOnInit(): void {
+  /**
+   * Subscribe to services to get the amount of players, the current players and the current player images, and the game ends status.
+   */
+  ngOnInit(): void {    
     this.playeramountService.amountPlayer.subscribe((numberPlayers) => {
       this.amountPlayer = numberPlayers;
     });
@@ -58,6 +62,9 @@ export class GameInfoComponent implements OnInit, OnChanges {
   }
 
   
+  /**
+   * Get the title and description of the card that is drawn.
+   */
   ngOnChanges(): void {
     if (this.card) {
       let cardNumber = +this.card.split('_')[1];
@@ -67,12 +74,20 @@ export class GameInfoComponent implements OnInit, OnChanges {
   }
 
 
+  /**
+   * restart the game
+   * @param currentPlayers are the current players in the game.
+   */
   async restartGame(currentPlayers: Array<string>) {
-    this.game = new Game();
-    this.game.players = this.currentPlayers;
-    this.game.playerImages = this.currentPlayerImages;
-    let gameInfo = await addDoc(this.gamesCollection, this.game.toJson()).then((docRef: DocumentReference) => {
-      this.router.navigate(['/game', docRef.id]);
+    this.gameId = this.router.url.split('/')[2];
+    let newGame = new Game();
+    newGame.players = this.currentPlayers;
+    newGame.playerImages = this.currentPlayerImages;
+    console.log(newGame);
+    const docRef = doc(this.db, "games", this.gameId);
+    const gameData = newGame.toJson();
+    setDoc(docRef, gameData).then(() => {
+      console.log("Document successfully written!", newGame);
     });
   }
 }

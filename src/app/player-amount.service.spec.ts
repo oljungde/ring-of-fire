@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { PlayerAmountService } from './player-amount.service';
 
 describe('PlayerAmountService', () => {

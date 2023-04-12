@@ -39,27 +39,51 @@ export class GameComponent implements OnInit {
   }
 
 
+  /**
+   * get the game data from the database
+   * @param params is the id of the game
+   */
   async getGameData(params: any) {
     this.gameId = params['id'];
     let docRef = doc(this.gamesCollection, this.gameId);
     let game$ = docData(docRef);
     game$.subscribe((game: any) => {
-      this.game.players = game.players;
-      this.game.playerImages = game.playerImages;
-      this.game.currentPlayer = game.currentPlayer;
-      this.game.playedCards = game.playedCards;
-      this.game.stack = game.stack;
-      this.game.pickCardAnimation = game.pickCardAnimation;
-      this.game.currentCard = game.currentCard;
-      this.game.gameOver = game.gameOver;
-      this.playeramountService.triggerPlayerSubject(this.game.players.length);
-      this.gameendsService.triggerGameEndSubject(this.game.gameOver);
-      this.gameendsService.triggerCurrentPlayersSubject(this.game.players);
-      this.gameendsService.triggerCurrentPlayerImagesSubject(this.game.playerImages);
+      this.setGameData(game);
+      this.triggerServices();
     });   
   }
 
+
+  /**
+   * set the local game data to the data from the database
+   * @param game is the game data from the database
+   */
+  setGameData(game: any) {
+    this.game.players = game.players;
+    this.game.playerImages = game.playerImages;
+    this.game.currentPlayer = game.currentPlayer;
+    this.game.playedCards = game.playedCards;
+    this.game.stack = game.stack;
+    this.game.pickCardAnimation = game.pickCardAnimation;
+    this.game.currentCard = game.currentCard;
+    this.game.gameOver = game.gameOver;
+  }
+
+
+  /**
+   * trigger the services to exchange data between game component and game-info component
+   */
+  triggerServices() {
+    this.playeramountService.triggerPlayerSubject(this.game.players.length);
+    this.gameendsService.triggerGameEndSubject(this.game.gameOver);
+    this.gameendsService.triggerCurrentPlayersSubject(this.game.players);
+    this.gameendsService.triggerCurrentPlayerImagesSubject(this.game.playerImages);
+  }
+
   
+  /**
+   * function to pick a card from the stack, change player who is currently playing and push the card to the played cards array
+   */
   pickCard() {
     if (!this.game.pickCardAnimation && this.game.players.length > 1) {
       this.game.currentCard = this.game.stack.pop();
@@ -72,16 +96,27 @@ export class GameComponent implements OnInit {
         this.game.pickCardAnimation = false;
         this.updateGame();
       }, 1250);
-      if (this.game.stack.length < 1) {
-        setTimeout(() => {
-          this.game.gameOver = true;
-          this.updateGame();
-        }, 3500);
-      }
+      this.isGameOver();
     } 
   }
 
 
+  /**
+   * function to check if the game is over
+   */
+  isGameOver() {
+    if (this.game.stack.length < 1) {
+      setTimeout(() => {
+        this.game.gameOver = true;
+        this.updateGame();
+      }, 3500);
+    }
+  }
+
+
+  /**
+   * function to open the dialog to add a player, check if the name is valid and push the name to the players array
+   */
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
     dialogRef.afterClosed().subscribe((name: string) => {
@@ -95,6 +130,11 @@ export class GameComponent implements OnInit {
   }
 
 
+  /**
+   * function to open the dialog to edit a player, check if the name is valid and push the name to the players array
+   * or delete the player from the players array
+   * @param playerId position of the player in the players array
+   */
   editPlayer(playerId: number) {
     const dialogRef = this.dialog.open(EditPlayerComponent);
     dialogRef.afterClosed().subscribe((change: string) => {
@@ -110,7 +150,9 @@ export class GameComponent implements OnInit {
     });
   }
 
-
+  /**
+   * function to update the game data in the database
+   */
   updateGame() { 
     const docRef = doc(this.db, "games", this.gameId);
     const gameData = this.game.toJson();

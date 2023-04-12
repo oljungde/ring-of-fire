@@ -32,4 +32,4 @@
     <mat-icon>add</mat-icon>
 </button>
 
-<img src="assets/img/cards/{{ this.game.stack[this.game.stack.length - 1] }}.png" alt="">
+<img *ngIf="this.game.stack.length > 0" src="assets/img/cards/{{ this.game.stack[this.game.stack.length - 1] }}.png" alt="">
